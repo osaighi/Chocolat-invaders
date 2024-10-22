@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chocolatin'vaders</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f3e5ab;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: url('assets/bakery_background.png') no-repeat center center;
+            background-size: cover;
+        }
+        .controls {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .button {
+            width: 60px;
+            height: 60px;
+            margin: 5px;
+            background-color: #d3a866;
+            border: 2px solid #8b5a2b;
+            border-radius: 10px;
+            font-size: 20px;
+            color: white;
+            text-align: center;
+            line-height: 60px;
+            user-select: none;
+            touch-action: manipulation;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Mobile Controls -->
+    <div class="controls">
+        <div class="button" id="leftButton">◀️</div>
+        <div class="button" id="rightButton">▶️</div>
+        <div class="button" id="fireButton">🔥</div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
