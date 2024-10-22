@@ -19,7 +19,7 @@ let playerSpeed = 5;
 let croissants = [];
 let croissantWidth = 40;
 let croissantHeight = 40;
-let initialCroissants = 10; // Augmenter le nombre initial de croissants
+let rowsOfCroissants = 5; // Nombre de lignes de croissants
 let croissantDirection = 1; // Direction initiale des croissants (1 = droite, -1 = gauche)
 
 let bullets = [];
@@ -70,15 +70,21 @@ rightButton.addEventListener("touchend", () => keys.right = false);
 fireButton.addEventListener("touchstart", () => keys.space = true);
 fireButton.addEventListener("touchend", () => keys.space = false);
 
-// Create croissants
+// Créer des croissants en lignes
 function createCroissants() {
-    for (let i = 0; i < initialCroissants; i++) {
-        croissants.push({
-            x: i * (croissantWidth + 10), // Moins d'espace entre les croissants
-            y: 50,
-            width: croissantWidth,
-            height: croissantHeight,
-        });
+    const availableWidth = canvas.width * 2 / 3; // Ne pas dépasser les 2/3 de la largeur de l'écran
+    const croissantsPerRow = Math.floor(availableWidth / (croissantWidth + 10)); // Calculer le nombre de croissants par ligne
+    const startX = (canvas.width - (croissantsPerRow * (croissantWidth + 10))) / 2; // Centrer les croissants
+
+    for (let row = 0; row < rowsOfCroissants; row++) {
+        for (let i = 0; i < croissantsPerRow; i++) {
+            croissants.push({
+                x: startX + i * (croissantWidth + 10),
+                y: 50 + row * (croissantHeight + 20),
+                width: croissantWidth,
+                height: croissantHeight,
+            });
+        }
     }
 }
 
@@ -87,10 +93,10 @@ function calculateCroissantSpeed() {
     const remainingCroissants = croissants.length;
     const maxSpeed = 5; // Vitesse maximale des croissants
     const minSpeed = 1; // Vitesse minimale des croissants
-    const speedIncreaseFactor = 0.001 * canvas.height/canvas.width; // Facteur basé sur la hauteur du canvas
+    const speedIncreaseFactor = 0.05 * canvas.height; // Facteur basé sur la hauteur du canvas
 
     // La vitesse augmente lorsque le nombre de croissants diminue
-    let calculatedSpeed = minSpeed + (maxSpeed - minSpeed) * (1 - remainingCroissants / initialCroissants);
+    let calculatedSpeed = minSpeed + (maxSpeed - minSpeed) * (1 - remainingCroissants / (rowsOfCroissants * 10));
     return Math.min(calculatedSpeed + speedIncreaseFactor, maxSpeed); // Limiter à la vitesse maximale
 }
 
