@@ -87,7 +87,7 @@ function calculateCroissantSpeed() {
     const remainingCroissants = croissants.length;
     const maxSpeed = 5; // Vitesse maximale des croissants
     const minSpeed = 1; // Vitesse minimale des croissants
-    const speedIncreaseFactor = 0.05 * canvas.height; // Facteur basé sur la hauteur du canvas
+    const speedIncreaseFactor = 0.01 * canvas.height/canvas.width; // Facteur basé sur la hauteur du canvas
 
     // La vitesse augmente lorsque le nombre de croissants diminue
     let calculatedSpeed = minSpeed + (maxSpeed - minSpeed) * (1 - remainingCroissants / initialCroissants);
