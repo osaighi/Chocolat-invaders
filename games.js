@@ -19,7 +19,7 @@ let playerSpeed = 5;
 let croissants = [];
 let croissantWidth = 40;
 let croissantHeight = 40;
-let croissantSpeedX = 2; // Mouvement horizontal des croissants
+let initialCroissants = 10; // Augmenter le nombre initial de croissants
 let croissantDirection = 1; // Direction initiale des croissants (1 = droite, -1 = gauche)
 
 let bullets = [];
@@ -72,14 +72,26 @@ fireButton.addEventListener("touchend", () => keys.space = false);
 
 // Create croissants
 function createCroissants() {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < initialCroissants; i++) {
         croissants.push({
-            x: i * (croissantWidth + 20) + 60,
+            x: i * (croissantWidth + 10), // Moins d'espace entre les croissants
             y: 50,
             width: croissantWidth,
             height: croissantHeight,
         });
     }
+}
+
+// Calculer la vitesse des croissants en fonction du nombre et de la hauteur de l'écran
+function calculateCroissantSpeed() {
+    const remainingCroissants = croissants.length;
+    const maxSpeed = 5; // Vitesse maximale des croissants
+    const minSpeed = 1; // Vitesse minimale des croissants
+    const speedIncreaseFactor = 0.05 * canvas.height; // Facteur basé sur la hauteur du canvas
+
+    // La vitesse augmente lorsque le nombre de croissants diminue
+    let calculatedSpeed = minSpeed + (maxSpeed - minSpeed) * (1 - remainingCroissants / initialCroissants);
+    return Math.min(calculatedSpeed + speedIncreaseFactor, maxSpeed); // Limiter à la vitesse maximale
 }
 
 // Update game
@@ -96,6 +108,8 @@ function update() {
 
     // Mouvement des croissants (horizontal comme dans Space Invaders)
     let moveDown = false; // Indicateur pour descendre les croissants
+    let croissantSpeedX = calculateCroissantSpeed(); // Calculer la vitesse des croissants
+
     croissants.forEach(croissant => {
         croissant.x += croissantSpeedX * croissantDirection;
 
