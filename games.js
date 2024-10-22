@@ -13,13 +13,14 @@ resizeCanvas();
 let playerWidth = 50;
 let playerHeight = 50;
 let playerX = (canvas.width / 2) - (playerWidth / 2);
-let playerY = canvas.height - playerHeight - 10;
+let playerY = canvas.height - playerHeight - 80; // Ajusté pour être au-dessus des boutons
 let playerSpeed = 5;
 
 let croissants = [];
 let croissantWidth = 40;
 let croissantHeight = 40;
-let croissantSpeed = 2;
+let croissantSpeedX = 2; // Mouvement horizontal des croissants
+let croissantDirection = 1; // Direction initiale des croissants (1 = droite, -1 = gauche)
 
 let bullets = [];
 let bulletWidth = 5;
@@ -93,10 +94,24 @@ function update() {
 
     bullets = bullets.map(b => ({ x: b.x, y: b.y - bulletSpeed })).filter(b => b.y > 0);
 
-    // Croissant movement
+    // Mouvement des croissants (horizontal comme dans Space Invaders)
+    let moveDown = false; // Indicateur pour descendre les croissants
     croissants.forEach(croissant => {
-        croissant.y += croissantSpeed;
+        croissant.x += croissantSpeedX * croissantDirection;
+
+        // Change de direction si un croissant atteint le bord
+        if (croissant.x + croissant.width > canvas.width || croissant.x < 0) {
+            croissantDirection *= -1; // Inverser la direction
+            moveDown = true;
+        }
     });
+
+    // Descendre tous les croissants si l'un d'eux a atteint un bord
+    if (moveDown) {
+        croissants.forEach(croissant => {
+            croissant.y += croissantHeight; // Descendre d'une ligne
+        });
+    }
 
     checkCollisions();
     checkGameOver();
