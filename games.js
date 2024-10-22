@@ -36,7 +36,7 @@ const painAuChocolatImg = new Image();
 painAuChocolatImg.src = 'assets/pain_au_chocolat.png';
 
 const croissantImg = new Image();
-croissantImg.src = 'assets/croissant.png';
+croissantImg.src = 'assets/42C41A7D-BC81-4D0F-99D7-6D24EF29CB15.webp';
 
 // Event listeners for keyboard controls
 document.addEventListener("keydown", function(event) {
